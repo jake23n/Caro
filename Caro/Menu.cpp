@@ -96,7 +96,7 @@ int getConsoleInput() {
             return 9;
         else if (c == 90 || c == 122) //Z, z undo 
             return 12;
-        else if (c == 69 || c == 101) //Z, z undo 
+        else if (c == 69 || c == 101) //E, e setting 
             return 13;
         else
             return 0;
@@ -144,48 +144,40 @@ void instruction()
     gotoXY(109, 27);   cout << "     ENTER   ";
     gotoXY(109, 28); cout << "             ";
     int y = 31;
-    Textcolor(Grey);
-    gotoXY(65, 38);  cout << "   ESC   ";
-    Textcolor(Black);
-    gotoXY(73, 38);
-    cout << " : BACK";
-    do {
-        int input = getConsoleInput();
-        if (input == 5 || input == 1)
+    Textcolor(Red);
+    gotoXY(68, 38);
+    cout << "BACK";
+    int input = getConsoleInput();
+    do if (input == 6)
+    {
+        y++;
+        if (y == 32)
         {
-            y++;
-            if (y == 32)
-            {
-                clearConsole();
-                menu();
-            }
+            clearConsole();
+            menu();
             break;
         }
-    } while (input != 5 && input != 1);
+    }while (1);
 }
 void About()
 {
     clearConsole();
     Draw(4, 20, 1);
     int y = 31;
-    Textcolor(Grey);
-    gotoXY(65, 38);  cout << "   ESC   ";
-    Textcolor(Black);
-    gotoXY(73, 38);
-    cout << " : BACK";
-    do {
-        int input = getConsoleInput();
-        if (input == 5 || input == 1)
+    Textcolor(Red);
+    gotoXY(68, 38);
+    cout << "BACK";
+    int input = getConsoleInput();
+    do if (input == 6)
+    {
+        y++;
+        if (y == 32)
         {
-            y++;
-            if (y == 32)
-            {
-                clearConsole();
-                menu();
-            }
+            clearConsole();
+            menu();
             break;
         }
-    } while (input != 5 && input != 1);
+    }while (1);
 }
 void history() {
     clearConsole();
@@ -215,24 +207,20 @@ void history() {
 
     int y = 31;
     f.close();
-    Textcolor(Grey);
-    gotoXY(70, i + 5);  cout << "   ESC   ";
-    Textcolor(Black);
-    gotoXY(78, i + 5);
-    cout << " : BACK";
-    do {
-        int input = getConsoleInput();
-        if (input == 5 || input == 1)
+    Textcolor(Red);
+    gotoXY(68, i);
+    cout << "BACK";
+    int input = getConsoleInput();
+    do if (input == 6)
+    {
+        y++;
+        if (y == 32)
         {
-            y++;
-            if (y == 32)
-            {
-                clearConsole();
-                menu();
-            }
+            clearConsole();
+            menu();
             break;
         }
-    } while (input != 5 && input != 1);
+    }while (1);
 }
 int readMode(char a[30])
 {
@@ -247,21 +235,20 @@ int readMode(char a[30])
         Sleep(400);
         Load();
         int y = 31;
-        Textcolor(Grey);
-        gotoXY(60, 38);  cout << "   ESC   ";
-        Textcolor(Black);
+        Textcolor(Red);
         gotoXY(68, 38);
-        cout << " : BACK";
+        cout << "BACK";
         int input = getConsoleInput();
-        if (input == 5 || input == 1)
+        do if (input == 6)
         {
             y++;
             if (y == 32)
             {
                 clearConsole();
                 menu();
+                break;
             }
-        }
+        }while (1);
         Sleep(1500);
 
     }
@@ -296,7 +283,7 @@ void Load()
     Draw(0, 10, 1);
     readNameFile();
     char data[30];
-    string ask[] = { "ESC: BACK", "Y: CONTINUE" };
+    string ask[] = { "BACK", "CONTINUE" };
     int cur = 50;
     int input = -1;
     while (input != 6) {

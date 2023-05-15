@@ -139,8 +139,7 @@ static void setScore2() { g->scorep2 = 0; }
 static bool isContinue();
 // Chơi lại hay không ?
 static char askContinue();
-//box hỏi 
-void Box();
+
 
 void startGame(); // Khởi tạo game . Bắt đầu game 
 void exitGame(); // Thoát Game
@@ -208,6 +207,7 @@ void clearConsoleLine(int y);
 void printTurnSymbol();
 int getCheckAtXY(int pX, int pY);
 void showCursor(bool show);
+static bool flagSymbol = true;
 
 // chức năng undo
 static bool wasPredeterminedMove = false;
