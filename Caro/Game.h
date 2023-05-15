@@ -5,6 +5,7 @@
 #include <mmsystem.h>
 #include <vector>
 #include <fstream>
+#include <stack>
 using namespace std;
 
 
@@ -122,6 +123,8 @@ struct _Game
 	// biến để hiện trước x o đi trước
 	bool _changeTurn;
 	bool _showCursor;
+
+	vector<pair<int, int>> moves; // danh sách các nước cờ đã đi
 };
 static _Game* g;
 
@@ -205,3 +208,11 @@ void clearConsoleLine(int y);
 void printTurnSymbol();
 int getCheckAtXY(int pX, int pY);
 void showCursor(bool show);
+
+// chức năng undo
+static bool wasPredeterminedMove = false;
+static vector<std::pair<int, int>> move_history; // lưu trữ lịch sử các nước đi
+void changeTurn();
+void deleteXO(int _x, int _y, char c);
+void undo(int x, int y);
+

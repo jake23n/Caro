@@ -1267,9 +1267,43 @@ void clearConsoleLine(int y) {
     FillConsoleOutputCharacter(GetStdHandle(STD_OUTPUT_HANDLE), ' ', info.dwSize.X, position, &count);
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), position);
 }
+void changeTurn() {
+    // Giả định người chơi đầu tiên có lượt đi là 1 và người chơi thứ hai có lượt đi là 2
+    if (g->_turn == true) {
+        g->_turn = false;
+    }
+    else {
+        g->_turn = true;
+    }
+}
+void deleteXO(int _x, int _y, char c) {
+    gotoXY(_x, _y); cout << c;
+    for (int i = 0; i < _b->_size; i++) {
+        for (int j = 0; j < _b->_size; j++) {
+            if (getX(i, j) == _x && getY(i, j) == _y) _pArr[i][j]._check = 0;
+        }
+    }
+}
+void undo(int x, int y)
+{
+    // Xóa quân cờ tại vị trí đã đánh
+    deleteXO(x, y, ' ');
+   
+}
+void addMove(int x, int y) {
+    g->moves.push_back({ x, y });
+}
+void undoLastMove() {
+    if (g->moves.empty()) return;
+    int x = g->moves.back().first;
+    int y = g->moves.back().second;
+    g->moves.pop_back();
+    undo(x, y);
+}
+
 int PlayerVsPlayer(Diem& a, int load, char data[30])
 {
-    int k = 1;
+ 
     showCur();
     setGame(SIZE, 0, 0);
     setCountXY(g);
@@ -1301,7 +1335,7 @@ int PlayerVsPlayer(Diem& a, int load, char data[30])
     gotoXY(2, 1);
     while (isContinue())
     {
-        auto input = getConsoleInput();
+        int input = getConsoleInput();
         //Đọc phím A: dịch chuyển con trỏ trong bàn cờ sang trái 1 đơn vị.
         if (input == 3)
         {
@@ -1338,6 +1372,51 @@ int PlayerVsPlayer(Diem& a, int load, char data[30])
             playSound(2);
             Load();
         }
+        // Đọc phím z: undo nước cờ cuối cùng
+        if (input == 12) {
+            playSound(2);
+            undoLastMove();
+            
+            gotoXY(g->_x, g->_y);
+            changeTurn();
+            
+        }
+        //Đọc phím Enter: thực hiện đánh quân X vào vị trí hiện tại của con trỏ trên bàn cờ.
+        if (input == 6)
+        {
+            playSound(2);
+           
+            
+            int x = getXatEnter();
+            int y = getYatEnter();
+                if (processCheckBoard())
+                {
+                    switch (processFinish(x, y))
+                    {
+                    case -1:
+                    {
+                        playSound(4);
+                        a.score1++;
+                        PvPaskForRestart(a, load, data);
+                        break;
+                    }
+                    case 1:
+                    {
+                        playSound(4);
+                        a.score2++;
+                        PvPaskForRestart(a, load, data);
+                        break;
+                    }
+                    case 0:
+                    {
+                        playSound(4);
+                        PvPaskForRestart(a, load, data);
+                        break;
+                    }
+                    }
+                    addMove(x, y); // thêm nước cờ vào danh sách
+                }
+        }
         //Đọc phím Enter: thực hiện đánh quân X vào vị trí hiện tại của con trỏ trên bàn cờ.
         if (input == 6)
         {
@@ -1352,48 +1431,78 @@ int PlayerVsPlayer(Diem& a, int load, char data[30])
                 {
                     playSound(4);
                     a.score1++;
-                    PvPaskForRestart(a, load, data);
+                    PvCaskForRestart(a, load, data);
                     break;
                 }
                 case 1:
                 {
                     playSound(4);
                     a.score2++;
-                    PvPaskForRestart(a, load, data);
+                    PvCaskForRestart(a, load, data);
                     break;
                 }
                 case 0:
                 {
                     playSound(4);
-                    PvPaskForRestart(a, load, data);
+                    PvCaskForRestart(a, load, data);
                     break;
                 }
                 }
+                addMove(x, y); // thêm nước cờ đã đi của x 
             }
 
+        }
+        if (input == 7)
+        {
+            SaveGame(-4);
         }
         if (input == 1)
         {
             playSound(2);
             gotoXY(50, 42); cout << "You should save game before you exit. Would you to exit game?";
-            gotoXY(50, 43); cout << "Y: Yes           N: No";
-            do {
-                int yn = getConsoleInput();
-                if (yn == 11 || yn == 9)
-                {
-                    if (yn == 9) {
-                        clearConsoleLine(42);
-                        clearConsoleLine(43);
-                        int x = getXatEnter();
-                        int y = getYatEnter();
-                        gotoXY(x, y);
-                        break;
+            string ask[] = { "ESC: BACK", "Y: CONTINUE" };
+            int cur = 50;
+            int input = -1;
+            while (input != 6) {
+                Textcolor(Black);
+                gotoXY(50, 43);  cout << ask[0];
+
+                Textcolor(Black);
+                gotoXY(80, 43);  cout << ask[1];
+
+                // Highlight current selection
+                Textcolor(Red);
+                gotoXY(cur, 43);
+                cout << ask[(cur - 50) / 30];
+
+                input = getConsoleInput(); // Get keyboard input
+
+                // Clear current selection
+                Textcolor(Black);
+                gotoXY(cur, 43);
+                cout << ask[(cur - 50) / 30];
+
+                if (input == 3 || input == 4) {
+                    playSound(1);
+                    // Move selection left or right
+                    if (cur == 50)
+                        cur = 80;
+                    else
+                        cur = 50;
+                }
+                else if (input == 6) {
+                    playSound(2);
+                    // Call corresponding function for selected menu item
+                    if (cur == 50) {
+                        clearConsole();
+                        menu();
                     }
-                    else if (yn == 11) {
+                    else {
                         return 27;
                     }
                 }
-            } while (true);
+            }
+
         }
     }
 }
@@ -1502,6 +1611,7 @@ int PlayerVsCom(Diem& a, int load, char data[30])
     gotoXY(2, 1);
     while (isContinue())
     {
+       
         if (!getTurn())
         {
             //Đặt vị trí đánh đầu tiên cho người cho may
@@ -1520,36 +1630,11 @@ int PlayerVsCom(Diem& a, int load, char data[30])
                 int y = getYatEnter();
                 gotoXY(x, y);
                 enterCom(a, load, data);
+                addMove(x, y); // thêm nước cờ đã đi của y vào danh sách
             }
         }
         int input = getConsoleInput();
-        if (input == 7)
-        {
-            SaveGame(-4);
-        }
-        if (input == 1)
-        {
-            playSound(2);
-            gotoXY(50, 42); cout << "You should save game before you exit. Would you to exit game?";
-            gotoXY(50, 43); cout << "Y: Yes           N: No";
-            do {
-                int yn = getConsoleInput();
-                if (yn == 11 || yn == 9)
-                {
-                    if (yn == 9) {
-                        clearConsoleLine(42);
-                        clearConsoleLine(43);
-                        int x = getXatEnter();
-                        int y = getYatEnter();
-                        gotoXY(x, y);
-                        break;
-                    }
-                    else if (yn == 11) {
-                        return 27;
-                    }
-                }
-            } while (true);
-        }
+        
         //Đọc phím A: dịch chuyển con trỏ trong bàn cờ sang trái 1 đơn vị.
 
         if (input == 3)
@@ -1574,19 +1659,104 @@ int PlayerVsCom(Diem& a, int load, char data[30])
         {
             moveDown();
         }
-        //Đọc phím L: thực hiện lưu game hiện hành vào tập tin.
-
         //Đọc phím T: thực hiện load game.
         if (input == 10)
         {
             playSound(2);
             Load();
         }
+        if (input == 12) {
+           
+            playSound(2);
+            undoLastMove();
+            undoLastMove();
+        }
         //Đọc phím Enter: thực hiện đánh quân X vào vị trí hiện tại của con trỏ trên bàn cờ.
         if (input == 6)
         {
             playSound(2);
-            enterCom(a, load, data);
+            int x = getXatEnter();
+            int y = getYatEnter();
+            if (processCheckBoard())
+            {
+                switch (processFinish(x, y))
+                {
+                case -1:
+                {
+                    playSound(4);
+                    a.score1++;
+                    PvCaskForRestart(a, load, data);
+                    break;
+                }
+                case 1:
+                {
+                    playSound(4);
+                    a.score2++;
+                    PvCaskForRestart(a, load, data);
+                    break;
+                }
+                case 0:
+                {
+                    playSound(4);
+                    PvCaskForRestart(a, load, data);
+                    break;
+                }
+                }
+               addMove(x, y); // thêm nước cờ đã đi của x 
+            }
+           
+        }
+        if (input == 7)
+        {
+            SaveGame(-4);
+        }
+        if (input == 1)
+        {
+            playSound(2);
+            gotoXY(50, 42); cout << "You should save game before you exit. Would you to exit game?";
+            string ask[] = { "ESC: BACK", "Y: CONTINUE" };
+            int cur = 50;
+            int input = -1;
+            while (input != 6) {
+                Textcolor(Black);
+                gotoXY(50, 43);  cout << ask[0];
+
+                Textcolor(Black);
+                gotoXY(80, 43);  cout << ask[1];
+
+                // Highlight current selection
+                Textcolor(Red);
+                gotoXY(cur, 43);
+                cout << ask[(cur - 50) / 30];
+
+                input = getConsoleInput(); // Get keyboard input
+
+                // Clear current selection
+                Textcolor(Black);
+                gotoXY(cur, 43);
+                cout << ask[(cur - 50) / 30];
+
+                if (input == 3 || input == 4) {
+                    playSound(1);
+                    // Move selection left or right
+                    if (cur == 50)
+                        cur = 80;
+                    else
+                        cur = 50;
+                }
+                else if (input == 6) {
+                    playSound(2);
+                    // Call corresponding function for selected menu item
+                    if (cur == 50) {
+                        clearConsole();
+                        menu();
+                    }
+                    else {
+                        return 27;
+                    }
+                }
+            }
+    
         }
     }
 }

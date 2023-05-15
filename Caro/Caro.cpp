@@ -4,7 +4,7 @@
 int main() {
 	system("color FA");
 	SetConsole(1120, 720);
-	LoadingGame();
+	//LoadingGame();
 	menu();
 	system("pause");
 	return 0;

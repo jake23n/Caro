@@ -94,6 +94,8 @@ int getConsoleInput() {
             return 8;
         else if (c == 78 || c == 110) //N, n turn on sound
             return 9;
+        else if (c == 90 || c == 122) //Z, z undo 
+            return 12;
         else
             return 0;
     }
@@ -141,7 +143,7 @@ void instruction()
     gotoXY(109, 28); cout << "             ";
     int y = 31;
     Textcolor(Grey);
-    gotoXY(65, 38);  cout << "   S   ";
+    gotoXY(65, 38);  cout << "   ESC   ";
     Textcolor(Black);
     gotoXY(73, 38);
     cout << " : BACK";
@@ -165,7 +167,7 @@ void About()
     Draw(4, 20, 1);
     int y = 31;
     Textcolor(Grey);
-    gotoXY(65, 38);  cout << "   S   ";
+    gotoXY(65, 38);  cout << "   ESC   ";
     Textcolor(Black);
     gotoXY(73, 38);
     cout << " : BACK";
@@ -212,7 +214,7 @@ void history() {
     int y = 31;
     f.close();
     Textcolor(Grey);
-    gotoXY(70, i + 5);  cout << "   S   ";
+    gotoXY(70, i + 5);  cout << "   ESC   ";
     Textcolor(Black);
     gotoXY(78, i + 5);
     cout << " : BACK";
@@ -244,7 +246,7 @@ int readMode(char a[30])
         Load();
         int y = 31;
         Textcolor(Grey);
-        gotoXY(60, 38);  cout << "   S   ";
+        gotoXY(60, 38);  cout << "   ESC   ";
         Textcolor(Black);
         gotoXY(68, 38);
         cout << " : BACK";
@@ -288,74 +290,86 @@ void readNameFile()
 }
 void Load()
 {
-    int n = 100;
     clearConsole();
     Draw(0, 10, 1);
     readNameFile();
     char data[30];
+    string ask[] = { "ESC: BACK", "Y: CONTINUE" };
+    int cur = 50;
+    int input = -1;
+    while (input != 6) {
+        Textcolor(Black);
+        gotoXY(50, 38);  cout << ask[0];
 
-    int y = 31;
-    Textcolor(Red);
-    gotoXY(60, 38);  cout << "S";
-    Textcolor(Red);
-    gotoXY(68, 38);
-    cout << " : BACK";
-    Textcolor(Red);
-    gotoXY(60, 39);  cout << "Y";
-    Textcolor(Red);
-    gotoXY(68, 39);
-    cout << " : CONTINUE";
-    do {
-        int input = getConsoleInput();
-        if (input == 5 || input == 1)
+        Textcolor(Black);
+        gotoXY(80, 38);  cout << ask[1];
+
+        // Highlight current selection
+        Textcolor(Red);
+        gotoXY(cur, 38);
+        cout << ask[(cur - 50) / 30];
+
+        input = getConsoleInput(); // Get keyboard input
+
+        // Clear current selection
+        Textcolor(Black);
+        gotoXY(cur, 38);
+        cout << ask[(cur - 50) / 30];
+
+        if (input == 3 || input == 4) {
+            playSound(1);
+            // Move selection left or right
+            if (cur == 50)
+                cur = 80;
+            else
+                cur = 50;
+        }
+        else if (input == 6) {
+            playSound(2);
+            // Call corresponding function for selected menu item
+            if (cur == 50) {
+                clearConsole();
+                menu();
+            }
+            else {
+                clearConsoleLine(38);
+                gotoXY(58, 32);
+                showCur();
+                Textcolor(Red);
+                cout << "ENTER FILE NAME: ";
+                cin.getline(data, 30);
+            }
+        }
+    }
+
+
+        int chedo = readMode(data);
+        if (chedo == -30 || chedo == -31)
         {
-            y++;
-            if (y == 32)
+            Diem a;
+            a.score1 = 0;
+            a.score2 = 0;
+            int t = PlayerVsPlayer(a, chedo, data);
+            if (t == 27)
             {
                 clearConsole();
                 menu();
             }
-            break;
         }
-        if (input == 11) {
-            clearConsoleLine(38);
-            clearConsoleLine(39);
-            gotoXY(58, 32);
-            showCur();
-            Textcolor(Red);
-            cout << "ENTER FILE NAME: ";
-            cin.getline(data, 30);
-            break;
-        }
-    } while (input != 5 && input != 1 && input != 11);
-
-
-    int chedo = readMode(data);
-    if (chedo == -30 || chedo == -31)
-    {
-        Diem a;
-        a.score1 = 0;
-        a.score2 = 0;
-        int t = PlayerVsPlayer(a, chedo, data);
-        if (t == 27)
+        if (chedo == -4)
         {
-            clearConsole();
-            menu();
+            Diem a;
+            a.score1 = 0;
+            a.score2 = 0;
+            int t = PlayerVsCom(a, -4, data);
+            if (t == 27)
+            {
+                clearConsole();
+                menu();
+            }
         }
-    }
-    if (chedo == -4)
-    {
-        Diem a;
-        a.score1 = 0;
-        a.score2 = 0;
-        int t = PlayerVsCom(a, -4, data);
-        if (t == 27)
-        {
-            clearConsole();
-            menu();
-        }
-    }
 }
+
 void menu()
 {
     system("color FA");
