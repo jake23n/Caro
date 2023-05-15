@@ -96,6 +96,8 @@ int getConsoleInput() {
             return 9;
         else if (c == 90 || c == 122) //Z, z undo 
             return 12;
+        else if (c == 69 || c == 101) //Z, z undo 
+            return 13;
         else
             return 0;
     }
@@ -369,7 +371,19 @@ void Load()
             }
         }
 }
-
+void settingPlaySound() {
+    int input = getConsoleInput();
+    
+    if (input == 9) {
+        isSoundOn = true;
+        playSound(6);
+    }
+    if (input == 8)
+    {
+        isSoundOn = false;
+        PlaySound(0, 0, 0);
+    }
+}
 void menu()
 {
     system("color FA");

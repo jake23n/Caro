@@ -82,6 +82,8 @@ void PrintScoreBoard()
     Textcolor(Black);
     gotoXY(SIZE * 4 + 31, 33);
     cout << "-----------------------";
+    gotoXY(SIZE * 4 + 30, 35);
+    cout << " E : setting sound ";
     gotoXY(SIZE * 4 + 30, 36);
     cout << " L : Save Game ";
     gotoXY(SIZE * 4 + 30, 37);

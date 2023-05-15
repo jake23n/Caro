@@ -1381,6 +1381,9 @@ int PlayerVsPlayer(Diem& a, int load, char data[30])
             changeTurn();
             
         }
+        if (input == 13) {
+            settingPlaySound();
+        }
         //Đọc phím Enter: thực hiện đánh quân X vào vị trí hiện tại của con trỏ trên bàn cờ.
         if (input == 6)
         {
@@ -1487,18 +1490,22 @@ int PlayerVsPlayer(Diem& a, int load, char data[30])
                     // Move selection left or right
                     if (cur == 50)
                         cur = 80;
-                    else
+                    else if (cur == 80)
                         cur = 50;
                 }
                 else if (input == 6) {
                     playSound(2);
                     // Call corresponding function for selected menu item
                     if (cur == 50) {
-                        clearConsole();
-                        menu();
+                        return 27;
                     }
                     else {
-                        return 27;
+                        clearConsoleLine(42);
+                        clearConsoleLine(43);
+                        int x = getXatEnter();
+                        int y = getYatEnter();
+                        gotoXY(x, y);
+                        break;
                     }
                 }
             }
@@ -1509,41 +1516,84 @@ int PlayerVsPlayer(Diem& a, int load, char data[30])
 
 void PvPaskForRestart(Diem& a, int& load, char data[30])
 {
-    int k = 1;
-    while (k)
+    int i = 8, j = 8;
+    string ask[] = { "Y : Play Again", "ESC: BACK" };
+    int selectedOption = 1;
+
+    while (true)
     {
-        int input = getConsoleInput();
-        if (input == 11)
-        {
-            playSound(2);
-            load = 0;
-            PlayerVsPlayer(a, load, data);
+        // Hiển thị các tùy chọn và tô màu tùy chọn được chọn
+        for (int idx = 0; idx < 2; idx++) {
+            if (idx == selectedOption) {
+                Textcolor(Red);
+            }
+            else {
+                Textcolor(Blue);
+            }
+            gotoXY(50, j + 18 + idx);
+            cout << ask[idx];
         }
-        else if (input == 1)
-        {
+
+        int input = getConsoleInput(); // Lấy đầu vào từ bàn phím
+
+        if (input == 2 || input == 5) {
+            // Di chuyển lựa chọn lên hoặc xuống
+            playSound(1);
+            selectedOption = (selectedOption + 1) % 2;
+        }
+        else if (input == 6) {
+            // Thực hiện hành động tương ứng với lựa chọn được chọn
             playSound(2);
-            clearConsole();
-            menu();
+            if (selectedOption == 0) {
+                load = 0;
+                PlayerVsPlayer(a, load, data);
+            }
+            else if (selectedOption == 1) {
+                clearConsole();
+                menu();
+            }
         }
     }
 }
+
 void PvCaskForRestart(Diem& a, int& load, char data[30])
 {
-    int k = 1;
-    while (k)
+    int i = 8, j = 8;
+    string ask[] = { "Y : Play Again", "ESC: BACK" };
+    int selectedOption = 1;
+
+    while (true)
     {
-        int input = getConsoleInput();
-        if (input == 11)
-        {
-            playSound(2);
-            load = 0;
-            PlayerVsCom(a, load, data);
+        // Hiển thị các tùy chọn và tô màu tùy chọn được chọn
+        for (int idx = 0; idx < 2; idx++) {
+            if (idx == selectedOption) {
+                Textcolor(Red);
+            }
+            else {
+                Textcolor(Blue);
+            }
+            gotoXY(50, j + 18 + idx);
+            cout << ask[idx];
         }
-        else if (input == 1)
-        {
+
+        int input = getConsoleInput(); // Lấy đầu vào từ bàn phím
+
+        if (input == 2 || input == 5) {
+            // Di chuyển lựa chọn lên hoặc xuống
+            playSound(1);
+            selectedOption = (selectedOption + 1) % 2;
+        }
+        else if (input == 6) {
+            // Thực hiện hành động tương ứng với lựa chọn được chọn
             playSound(2);
-            clearConsole();
-            menu();
+            if (selectedOption == 0) {
+                load = 0;
+                PlayerVsCom(a, load, data);
+            }
+            else if (selectedOption == 1) {
+                clearConsole();
+                menu();
+            }
         }
     }
 }
@@ -1671,6 +1721,9 @@ int PlayerVsCom(Diem& a, int load, char data[30])
             undoLastMove();
             undoLastMove();
         }
+        if (input == 13) {
+            settingPlaySound();
+        }
         //Đọc phím Enter: thực hiện đánh quân X vào vị trí hiện tại của con trỏ trên bàn cờ.
         if (input == 6)
         {
@@ -1741,22 +1794,26 @@ int PlayerVsCom(Diem& a, int load, char data[30])
                     // Move selection left or right
                     if (cur == 50)
                         cur = 80;
-                    else
+                    else if (cur == 80)
                         cur = 50;
                 }
                 else if (input == 6) {
                     playSound(2);
                     // Call corresponding function for selected menu item
                     if (cur == 50) {
-                        clearConsole();
-                        menu();
+                        return 27;
                     }
                     else {
-                        return 27;
+                        clearConsoleLine(42);
+                        clearConsoleLine(43);
+                        int x = getXatEnter();
+                        int y = getYatEnter();
+                        gotoXY(x, y);
+                        break;
                     }
                 }
             }
-    
+
         }
     }
 }
@@ -1945,19 +2002,19 @@ int processFinish(int x, int y)
         //Trường hợp người chơi X thắng, hiện ra màn hình P1 chiến thắng và lưu kết quả vào lịch sử.
     case -1:
         winDraw(1, '1', 10, 10);
-        Box();
+        //Box();
         LichSuGame(1);
         break;
         //Trường hợp người chơi O thắng, hiện ra màn hình P2 chiến thắng và lưu kết quả vào lịch sử.
     case 1:
         winDraw(2, '2', 10, 10);
-        Box();
+        //Box();
         LichSuGame(2);
         break;
         //Trường hợp 2 người chơi hòa nhau, hiện ra màn hình 2 người chơi hòa nhau và lưu kết quả vào lịch sử.
     case 0:
         winDraw(3, '1', 10, 10);
-        Box();
+       // Box();
         LichSuGame(0);
         break;
         //Trường hợp chưa có 2 chiến thắng, đổi lượt để người chơi tiếp theo đánh.
@@ -2194,12 +2251,3 @@ void LoadGame(char data[30])
     }
 }
 
-void Box()
-{
-    int i = 8, j = 8;
-    Textcolor(Blue);
-    gotoXY(50, j + 18);
-    cout << "Y   : Play Again";
-    gotoXY(50, j + 19);
-    cout << "ESC : BACK";
-}

@@ -56,3 +56,4 @@ void instruction(); //Mục hướng dẫn
 void history(); //Mục history#pragma once
 void About();  // thông tin
 
+void settingPlaySound();
