@@ -107,7 +107,32 @@ int getConsoleInput() {
 void clearConsole() {
     system("cls");
 }
-void instruction()
+void instruction2() {
+    Draw(8, 20, 1);
+    int y = 31;
+    Textcolor(Red);
+    gotoXY(93, 35);
+    cout << "BACK";
+
+    do
+    {
+        int input = getConsoleInput();
+        if (input == 6)
+        {
+            y++;
+            if (y == 32)
+            {
+                clearConsole();
+                menu();
+            }
+            break;
+        }
+        if (input == 4 || input == 3) {
+            instruction1();
+        }
+    } while (1);
+}
+void instruction1()
 {
     clearConsole();
     system("color FA");
@@ -160,6 +185,9 @@ void instruction()
                 menu();
             }
             break;
+        }
+        if (input == 3 || input == 4) {
+            instruction2();
         }
     } while (1);
 }
@@ -497,7 +525,7 @@ void menu()
             case 4:
             {
                 clearConsole();
-                instruction();
+                instruction1();
                 break;
             }
             case 5:

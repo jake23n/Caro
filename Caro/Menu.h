@@ -36,7 +36,7 @@ static int numItems = sizeof(menuItems) / sizeof(menuItems[0]);
 static int currentSelection = 0;
 
 //Dinh nghia file ve
-static string file_name[] = { "Caro.txt", "p1win.txt", "p2win.txt", "Draw.txt", "About.txt","Loading.txt","howtoplay.txt","listname.txt" };
+static string file_name[] = { "Caro.txt", "p1win.txt", "p2win.txt", "Draw.txt", "About.txt","Loading.txt","howtoplay.txt","listname.txt", "howtoplay2.txt"};
 extern bool isSoundOn;
 void showCur();
 void hideCur();
@@ -52,7 +52,8 @@ void setConsoleTitle();
 int readMode(char a[30]); //Tìm kiếm file người dùng (hỗ trợ hàm LoadLoad)
 void readNameFile(); //Hiển thị các người dùng đã lưu
 void Load(); // Mở file người chơi đã lưu
-void instruction(); //Mục hướng dẫn
+void instruction1(); //Mục hướng dẫn
+
 void history(); //Mục history#pragma once
 void About();  // thông tin
 
