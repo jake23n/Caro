@@ -1,4 +1,4 @@
-﻿#include "Menu.h"
+#include "Menu.h"
 #include "Board.h"
 #include "Game.h"
 
@@ -110,6 +110,8 @@ void clearConsole() {
 void instruction2() {
     Draw(8, 20, 1);
     int y = 31;
+    gotoXY(95, 28); cout << char(17);
+    gotoXY(97, 28); cout << char(16);
     Textcolor(Red);
     gotoXY(93, 35);
     cout << "BACK";
@@ -172,6 +174,8 @@ void instruction1()
     Textcolor(Red);
     gotoXY(93, 35);
     cout << "BACK";
+    gotoXY(95, 28); cout << char(17);
+    gotoXY(97, 28); cout << char(16);
    
     do 
     {
