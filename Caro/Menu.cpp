@@ -486,7 +486,7 @@ void settingPlaySound() {
         isSoundOn = true;
         playSound(6);
     }
-    if (input == 😎
+    if (input == 8)
     {
         isSoundOn = false;
         PlaySound(0, 0, 0);
@@ -567,7 +567,7 @@ void menu()
             isSoundOn = true;
             playSound(6);
         }
-        if (input == 😎
+        if (input == 8)
         {
             isSoundOn = false;
             PlaySound(0, 0, 0);

@@ -1,0 +1,35 @@
+﻿  Board.cpp
+  Caro.cpp
+E:\code\Caro\Caro\Game.h(186,64): warning C4838: conversion from '__int64' to 'const long' requires a narrowing conversion
+E:\code\Caro\Caro\Game.h(186,64): warning C4309: 'initializing': truncation of constant value
+E:\code\Caro\Caro\Game.h(187,68): warning C4838: conversion from '__int64' to 'const long' requires a narrowing conversion
+E:\code\Caro\Caro\Game.h(187,80): warning C4305: 'initializing': truncation from '__int64' to 'const long'
+E:\code\Caro\Caro\Game.h(187,68): warning C4309: 'initializing': truncation of constant value
+  Game.cpp
+E:\code\Caro\Caro\Game.h(186,64): warning C4838: conversion from '__int64' to 'const long' requires a narrowing conversion
+E:\code\Caro\Caro\Game.h(186,64): warning C4309: 'initializing': truncation of constant value
+E:\code\Caro\Caro\Game.h(187,68): warning C4838: conversion from '__int64' to 'const long' requires a narrowing conversion
+E:\code\Caro\Caro\Game.h(187,80): warning C4305: 'initializing': truncation from '__int64' to 'const long'
+E:\code\Caro\Caro\Game.h(187,68): warning C4309: 'initializing': truncation of constant value
+E:\code\Caro\Caro\Game.cpp(1263,27): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
+  Menu.cpp
+E:\code\Caro\Caro\Game.h(186,64): warning C4838: conversion from '__int64' to 'const long' requires a narrowing conversion
+E:\code\Caro\Caro\Game.h(186,64): warning C4309: 'initializing': truncation of constant value
+E:\code\Caro\Caro\Game.h(187,68): warning C4838: conversion from '__int64' to 'const long' requires a narrowing conversion
+E:\code\Caro\Caro\Game.h(187,80): warning C4305: 'initializing': truncation from '__int64' to 'const long'
+E:\code\Caro\Caro\Game.h(187,68): warning C4309: 'initializing': truncation of constant value
+E:\code\Caro\Caro\Menu.cpp(509,59): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+E:\code\Caro\Caro\Menu.cpp(532,93): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+E:\code\Caro\Caro\Menu.cpp(535,93): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+E:\code\Caro\Caro\Menu.cpp(538,130): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+E:\code\Caro\Caro\Menu.cpp(541,130): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+E:\code\Caro\Caro\Menu.cpp(544,89): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+E:\code\Caro\Caro\Menu.cpp(549,93): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+E:\code\Caro\Caro\Menu.cpp(552,93): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+E:\code\Caro\Caro\Menu.cpp(555,130): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+E:\code\Caro\Caro\Menu.cpp(558,130): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+E:\code\Caro\Caro\Menu.cpp(564,89): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+E:\code\Caro\Caro\Game.cpp(1506): warning C4715: 'PlayerVsPlayer': not all control paths return a value
+E:\code\Caro\Caro\Game.cpp(1838): warning C4715: 'PlayerVsCom': not all control paths return a value
+  Caro.vcxproj -> E:\code\Caro\x64\Debug\Caro.exe
