@@ -1,4 +1,4 @@
-﻿#include "Board.h"
+#include "Board.h"
 void PrintScoreBoard(int k)
 {
     fstream file;
