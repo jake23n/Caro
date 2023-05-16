@@ -1,95 +1,298 @@
 ﻿#include "Board.h"
-void PrintScoreBoard()
+void PrintScoreBoard(int k)
 {
-    // Bang 1
-    Textcolor(FullGreen);
-    gotoXY(SIZE * 4 + 19, 5);
-    for (int i = 0; i < 8; i++) {
-        gotoXY(SIZE * 4 + 25, i + 1);
-        cout << char(219);
+    fstream file;
+    string line;
+    int x = SIZE * 4 + 6, y = 4;
+    file.open("1.txt", ios::in);
+    if (k == 1)
+    {
+        while (!file.eof()) {
+            getline(file, line);
+            gotoXY(x, y);
+            for (int j = 0; j < line.length(); j++)
+            {
+                if (line[j] == '.')
+                {
+                    Textcolor(15);
+                    cout << char(219);
+                }
+                else if (line[j] == '1')
+                {
+                    Textcolor(FullBlue);
+                    cout << char(219);
+                }
+                else if (line[j] == '2')
+                {
+                    Textcolor(0);
+                    cout << char(219);
+                }
+                else if (line[j] == '4')
+                {
+                    Textcolor(Black);
+                    cout << char(30);
+                }
+                else if (line[j] == '5')
+                {
+                    Textcolor(Black);
+                    cout << char(17);
+                }
+                else if (line[j] == '6')
+                {
+                    Textcolor(Black);
+                    cout << char(16);
+                }
+                else if (line[j] == '7')
+                {
+                    Textcolor(Black);
+                    cout << char(31);
+                }
+                else
+                {
+                    Textcolor(Black);
+                    cout << line[j];
+                }
+            }
+            y += 1;
+        }
+        file.close();
+        // Bang 1
+        Textcolor(Blue);
+        for (int i = 10; i < 18; i++) {
+            gotoXY(SIZE * 4 + 5, i + 1);
+            cout << char(219);
+        }
+        for (int i = 10; i < 18; i++) {
+            gotoXY(SIZE * 4 + 35, i + 1);
+            cout << char(219);
+        }
+        gotoXY(SIZE * 4 + 5, 10);
+        for (int i = 0; i <= 30; i++) {
+            cout << char(220);
+        }
+        gotoXY(SIZE * 4 + 5, 18);
+        for (int i = 0; i < 31; i++) {
+            cout << char(223);
+        }
+        //Bang 2
+        Textcolor(Grey);
+        for (int i = 10; i < 18; i++) {
+            gotoXY(SIZE * 4 + 38, i + 1);
+            cout << char(219);
+        }
+        for (int i = 10; i < 18; i++) {
+            gotoXY(SIZE * 4 + 68, 1 + i);
+            cout << char(219);
+        }
+        gotoXY(SIZE * 4 + 38, 10);
+        for (int i = 0; i < 31; i++) {
+            cout << char(220);
+        }
+        gotoXY(SIZE * 4 + 38, 18);
+        for (int i = 0; i < 31; i++) {
+            cout << char(223);
+        }
     }
-    for (int i = 1; i < 9; i++) {
-        gotoXY(SIZE * 4 + 61, i + 1);
-        cout << char(219);
+    if (k == 2)
+    {
+        while (!file.eof()) {
+            getline(file, line);
+            gotoXY(x, y);
+            for (int j = 0; j < line.length(); j++)
+            {
+                if (line[j] == '.')
+                {
+                    Textcolor(15);
+                    cout << char(219);
+                }
+                else if (line[j] == '1')
+                {
+                    Textcolor(0);
+                    cout << char(219);
+                }
+                else if (line[j] == '2')
+                {
+                    Textcolor(FullRed);
+                    cout << char(219);
+                }
+                else
+                {
+                    Textcolor(Black);
+                    cout << line[j];
+                }
+            }
+            y += 1;
+        }
+        file.close();
+        // Bang 1
+        Textcolor(Grey);
+        for (int i = 10; i < 18; i++) {
+            gotoXY(SIZE * 4 + 5, i + 1);
+            cout << char(219);
+        }
+        for (int i = 10; i < 18; i++) {
+            gotoXY(SIZE * 4 + 35, i + 1);
+            cout << char(219);
+        }
+        gotoXY(SIZE * 4 + 5, 10);
+        for (int i = 0; i <= 30; i++) {
+            cout << char(220);
+        }
+        gotoXY(SIZE * 4 + 5, 18);
+        for (int i = 0; i < 31; i++) {
+            cout << char(223);
+        }
+        //Bang 2
+        Textcolor(Red);
+        for (int i = 10; i < 18; i++) {
+            gotoXY(SIZE * 4 + 38, i + 1);
+            cout << char(219);
+        }
+        for (int i = 10; i < 18; i++) {
+            gotoXY(SIZE * 4 + 68, 1 + i);
+            cout << char(219);
+        }
+        gotoXY(SIZE * 4 + 38, 10);
+        for (int i = 0; i < 31; i++) {
+            cout << char(220);
+        }
+        gotoXY(SIZE * 4 + 38, 18);
+        for (int i = 0; i < 31; i++) {
+            cout << char(223);
+        }
     }
-    gotoXY(SIZE * 4 + 25, 1);
-    for (int i = 0; i < 37; i++) {
-        cout << char(220);
+    if (k == 3) {
+        while (!file.eof()) {
+            getline(file, line);
+            gotoXY(x, y);
+            for (int j = 0; j < line.length(); j++)
+            {
+                if (line[j] == '.')
+                {
+                    Textcolor(15);
+                    cout << char(219);
+                }
+                else if (line[j] == '1')
+                {
+                    Textcolor(FullBlue);
+                    cout << char(219);
+                }
+                else if (line[j] == '2')
+                {
+                    Textcolor(0);
+                    cout << char(219);
+                }
+                else if (line[j] == '4')
+                {
+                    Textcolor(Black);
+                    cout << char(30);
+                }
+                else if (line[j] == '5')
+                {
+                    Textcolor(Black);
+                    cout << char(17);
+                }
+                else if (line[j] == '6')
+                {
+                    Textcolor(Black);
+                    cout << char(16);
+                }
+                else if (line[j] == '7')
+                {
+                    Textcolor(Black);
+                    cout << char(31);
+                }
+                else
+                {
+                    Textcolor(Black);
+                    cout << line[j];
+                }
+            }
+            y += 1;
+        }
+        file.close();
+        // Bang 1
+        Textcolor(Grey);
+        for (int i = 10; i < 18; i++) {
+            gotoXY(SIZE * 4 + 5, i + 1);
+            cout << char(219);
+        }
+        for (int i = 10; i < 18; i++) {
+            gotoXY(SIZE * 4 + 35, i + 1);
+            cout << char(219);
+        }
+        gotoXY(SIZE * 4 + 5, 10);
+        for (int i = 0; i <= 30; i++) {
+            cout << char(220);
+        }
+        gotoXY(SIZE * 4 + 5, 18);
+        for (int i = 0; i < 31; i++) {
+            cout << char(223);
+        }
+        //Bang 2
+        Textcolor(Grey);
+        for (int i = 10; i < 18; i++) {
+            gotoXY(SIZE * 4 + 38, i + 1);
+            cout << char(219);
+        }
+        for (int i = 10; i < 18; i++) {
+            gotoXY(SIZE * 4 + 68, 1 + i);
+            cout << char(219);
+        }
+        gotoXY(SIZE * 4 + 38, 10);
+        for (int i = 0; i < 31; i++) {
+            cout << char(220);
+        }
+        gotoXY(SIZE * 4 + 38, 18);
+        for (int i = 0; i < 31; i++) {
+            cout << char(223);
+        }
     }
-    gotoXY(SIZE * 4 + 25, 8 + 1);
-    for (int i = 0; i < 37; i++) {
-        cout << char(223);
-    }
-
+    
     Textcolor(Black);
-    gotoXY(SIZE * 4 + 40, 3);
+    gotoXY(SIZE * 4 + 10, 12);
     cout << "PLAYER 1";
-    gotoXY(SIZE * 4 + 30, 5);
-    cout << "So quan X : ";
-    gotoXY(SIZE * 4 + 30, 6);
-    cout << "So tran da thang : ";
-
-
-    //Bang 2
-    Textcolor(FullBlue);
-    gotoXY(SIZE * 4 + 19, (SIZE * 2 - 1) / 2 + 1);
-    for (int i = 1; i < 8; i++) {
-        gotoXY(SIZE * 4 + 25, 13 + i);
-        cout << char(219);
-    }
-    for (int i = 1; i < 8; i++) {
-        gotoXY(SIZE * 4 + 61, 13 + i);
-        cout << char(219);
-    }
-    gotoXY(SIZE * 4 + 25, 13);
-    for (int i = 0; i < 37; i++) {
-        cout << char(220);
-    }
-    gotoXY(SIZE * 4 + 25, 13 + 8);
-    for (int i = 0; i < 37; i++) {
-        cout << char(223);
-    }
-
+    gotoXY(SIZE * 4 + 10, 14);
+    cout << "X Moves : ";
+    gotoXY(SIZE * 4 + 10, 15);
+    cout << "Player 1 Has Won : ";
     Textcolor(Black);
-    gotoXY(SIZE * 4 + 40, 16);
+    gotoXY(SIZE * 4 + 45, 12);
     cout << "PLAYER 2";
     Textcolor(Black);
-    gotoXY(SIZE * 4 + 30, 18);
-    cout << "So quan O : ";
-    gotoXY(SIZE * 4 + 30, 19);
-    cout << "So tran da thang : ";
+    gotoXY(SIZE * 4 + 45, 14);
+    cout << "O Moves : ";
+    gotoXY(SIZE * 4 + 45, 15);
+    cout << "Player 2 Has Won : ";
 
     // Bang 3
-    Textcolor(FullRed);
-    gotoXY(SIZE * 4 + 19, (SIZE * 2 - 1) - 3);
-    for (int i = 0; i < 10; i++) {
-        gotoXY(SIZE * 4 + 25, SIZE * 2 - i);
+    Textcolor(0);
+    for (int i = 0; i < 40; i++) {
+        gotoXY(SIZE * 4 + 3, 40 - i);
         cout << char(219);
     }
-    for (int i = 0; i < 10; i++) {
-        gotoXY(SIZE * 4 + 61, SIZE * 2 - i);
+    for (int i = 0; i < 40; i++) {
+        gotoXY(SIZE * 4 + 70, 40 - i);
         cout << char(219);
     }
-    gotoXY(SIZE * 4 + 25, SIZE * 2);
-    for (int i = 0; i < 37; i++) {
+    gotoXY(SIZE * 4 + 3, 1);
+    for (int i = 3; i < 71; i++) {
         cout << char(223);
     }
-    gotoXY(SIZE * 4 + 25, SIZE * 2 - 10);
-    for (int i = 0; i < 37; i++) {
+    gotoXY(SIZE * 4 + 3, 40);
+    for (int i = 3; i < 71; i++) {
         cout << char(220);
     }
 
-    Textcolor(Black);
-    gotoXY(SIZE * 4 + 31, 33);
-    cout << "-----------------------";
-    gotoXY(SIZE * 4 + 30, 35);
-    cout << " E : setting sound ";
-    gotoXY(SIZE * 4 + 30, 36);
-    cout << " L : Save Game ";
-    gotoXY(SIZE * 4 + 30, 37);
-    cout << " T : Load Game ";
-    gotoXY(SIZE * 4 + 30, 38);
-    cout << " ESC : Exit ";
+    //Textcolor(Black);
+    //gotoXY(SIZE * 4 + 31, 33);
+    //cout << "-----------------------";
+    //gotoXY(SIZE * 4 + 30, 36);
+    //cout << " L : Save Game ";
+    //gotoXY(SIZE * 4 + 30, 37);
+    //cout << " T : Load Game ";
+    //gotoXY(SIZE * 4 + 30, 38);
+    //cout << " ESC : Exit ";
 
     gotoXY(2, 1);
 } // IN BANG DIEM
@@ -142,10 +345,25 @@ void Draw(int i, int x, int y) {
                 Textcolor(FullAzure);
                 cout << char(254);
             }
-            else if (line[j] == '|')
+            else if (line[j] == '"')
             {
                 Textcolor(Red);
                 cout << char(003);
+            }
+            else if (line[j] == 'z')
+            {
+                Textcolor(Black);
+                cout << char(179);
+            }
+            else if (line[j] == '#')
+            {
+                Textcolor(Grey);
+                cout << char(179);
+            }
+            else if (line[j] == '|' || line[j] == '-')
+            {
+                Textcolor(0);
+                cout << char(179);
             }
             else
             {
@@ -332,7 +550,7 @@ void winDraw(int i, char variableWin, int x, int y)
             getline(file, line);
             gotoXY(x, y);
             if (line == "load") {
-                y = 9;
+                y = 10;
                 Sleep(250);
             }
             else {

@@ -36,7 +36,7 @@ static int numItems = sizeof(menuItems) / sizeof(menuItems[0]);
 static int currentSelection = 0;
 
 //Dinh nghia file ve
-static string file_name[] = { "Caro.txt", "p1win.txt", "p2win.txt", "Draw.txt", "About.txt","Loading.txt" };
+static string file_name[] = { "Caro.txt", "p1win.txt", "p2win.txt", "Draw.txt", "About.txt","Loading.txt","howtoplay.txt","listname.txt" };
 extern bool isSoundOn;
 void showCur();
 void hideCur();

@@ -139,7 +139,8 @@ static void setScore2() { g->scorep2 = 0; }
 static bool isContinue();
 // Chơi lại hay không ?
 static char askContinue();
-
+//box hỏi 
+void Box();
 
 void startGame(); // Khởi tạo game . Bắt đầu game 
 void exitGame(); // Thoát Game
@@ -199,7 +200,7 @@ void PvPaskForRestart(Diem& a, int& load, char data[30]);
 void PvCaskForRestart(Diem& a, int& load, char data[30]);
 
 static int input = -1;
-
+static bool flagSymbol = true;
 // xóa dòng
 void clearConsoleLine(int y);
 
@@ -207,12 +208,13 @@ void clearConsoleLine(int y);
 void printTurnSymbol();
 int getCheckAtXY(int pX, int pY);
 void showCursor(bool show);
-static bool flagSymbol = true;
 
 // chức năng undo
-static bool wasPredeterminedMove = false;
-static vector<std::pair<int, int>> move_history; // lưu trữ lịch sử các nước đi
 void changeTurn();
 void deleteXO(int _x, int _y, char c);
 void undo(int x, int y);
+void undoLastMove();
+void addMove(int x, int y);
 
+void goiY();
+void undoSetting(int);

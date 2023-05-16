@@ -94,10 +94,12 @@ int getConsoleInput() {
             return 8;
         else if (c == 78 || c == 110) //N, n turn on sound
             return 9;
-        else if (c == 90 || c == 122) //Z, z undo 
+        else if (c == 90 || c == 122) //Z, z undo 	
             return 12;
-        else if (c == 69 || c == 101) //E, e setting 
+        else if (c == 69 || c == 101) //E, e setting 	
             return 13;
+        else if (c == 72 || c == 104) // H, h gợi í
+            return 14;
         else
             return 0;
     }
@@ -109,55 +111,57 @@ void instruction()
 {
     clearConsole();
     system("color FA");
-    Draw(0, 20, 1);
-    Textcolor(Violet);
-    gotoXY(35, 19);
-    cout << "------------------------------------ Instruction -----------------------------------";
-    gotoXY(71, 20);
-    cout << "( HUONG DAN )" << endl;
-    gotoXY(40, 22);
-    cout << char(254) << " Ban co gom 20x20 o vuong." << endl;
-    gotoXY(40, 24);
-    cout << char(254) << " Su dung cac phim W A S D de di chuyen va Enter de danh." << endl;
-    gotoXY(40, 30);
-    cout << "3. Luat choi cu du 5 quan co X hoac O theo hang ngang, doc, cheo se chien thang." << endl;
-    gotoXY(40, 32);
-    cout << "4. Luat choi tuan theo quy dinh chan 2 dau " << endl;
+    Draw(6, 20, 1);
+    Textcolor(Black);
+    gotoXY(55, 12);
+    cout << " This is a 20 x 20 chess board." << endl;
+    gotoXY(55, 14);
+    cout << " Use the buttom W A S D or arrow buttom to move. " << endl;
+    gotoXY(55, 16);
+    cout << " Use Enter to confirm your move.";
+    gotoXY(55, 22);
+    cout << " Every 5 X or O on the same horizontal, vertical, diagonal will make the win." << endl;
+    gotoXY(55, 24);
+    cout << " The rules of the game follow the rule of blocking 2 heads. " << endl;
     Textcolor(MintPink);
-    gotoXY(46, 26);  cout << "   W   ";
+    gotoXY(65, 18);  cout << "   W   ";
     Textcolor(Grey);
-    gotoXY(46, 28);  cout << "   S   ";
+    gotoXY(65, 20);  cout << "   S   ";
     Textcolor(BlueYellow);
-    gotoXY(37, 28);  cout << "   A   ";
+    gotoXY(55, 20);  cout << "   A   ";
     Textcolor(100);
-    gotoXY(55, 28);  cout << "   D   ";
+    gotoXY(75, 20);  cout << "   D   ";
     Textcolor(MintPink);
-    gotoXY(84, 26);  cout << "  " << char(036) << "  ";
+    gotoXY(94, 18);  cout << "  " << char(036) << "  ";
     Textcolor(Grey);
-    gotoXY(84, 28); cout << "  " << char(037) << "  ";
+    gotoXY(94, 20); cout << "  " << char(037) << "  ";
     Textcolor(30);
-    gotoXY(77, 28);  cout << "  " << char(021) << "  ";
+    gotoXY(87, 20);  cout << "  " << char(021) << "  ";
     Textcolor(100);
-    gotoXY(91, 28);  cout << "  " << char(020) << "  ";
+    gotoXY(101, 20);  cout << "  " << char(020) << "  ";
     Textcolor(GreyBlue);
-    gotoXY(113, 26);     cout << "         ";
-    gotoXY(109, 27);   cout << "     ENTER   ";
-    gotoXY(109, 28); cout << "             ";
+    gotoXY(118, 18);     cout << "         ";
+    gotoXY(114, 19);   cout << "     ENTER   ";
+    gotoXY(114, 20); cout << "             ";
     int y = 31;
     Textcolor(Red);
-    gotoXY(68, 38);
+    gotoXY(93, 35);
     cout << "BACK";
-    int input = getConsoleInput();
-    do if (input == 6)
+   
+    do 
     {
-        y++;
-        if (y == 32)
+        int input = getConsoleInput();
+        if (input == 6)
         {
-            clearConsole();
-            menu();
+            y++;
+            if (y == 32)
+            {
+                clearConsole();
+                menu();
+            }
             break;
         }
-    }while (1);
+    } while (1);
 }
 void About()
 {
@@ -165,19 +169,23 @@ void About()
     Draw(4, 20, 1);
     int y = 31;
     Textcolor(Red);
-    gotoXY(68, 38);
+    gotoXY(68, 40);
     cout << "BACK";
-    int input = getConsoleInput();
-    do if (input == 6)
+
+    do
     {
-        y++;
-        if (y == 32)
+        int input = getConsoleInput();
+        if (input == 6)
         {
-            clearConsole();
-            menu();
+            y++;
+            if (y == 32)
+            {
+                clearConsole();
+                menu();
+            }
             break;
         }
-    }while (1);
+    } while (1);
 }
 void history() {
     clearConsole();
@@ -206,21 +214,24 @@ void history() {
     }
 
     int y = 31;
-    f.close();
     Textcolor(Red);
     gotoXY(68, i);
     cout << "BACK";
-    int input = getConsoleInput();
-    do if (input == 6)
+
+    do
     {
-        y++;
-        if (y == 32)
+        int input = getConsoleInput();
+        if (input == 6)
         {
-            clearConsole();
-            menu();
+            y++;
+            if (y == 32)
+            {
+                clearConsole();
+                menu();
+            }
             break;
         }
-    }while (1);
+    } while (1);
 }
 int readMode(char a[30])
 {
@@ -228,27 +239,31 @@ int readMode(char a[30])
     ifstream f;
     f.open(a, ios::in);
     if (!f) {
-        /*playSound(7);*/
+        playSound(3);
         Textcolor(Black);
-        gotoXY(58, 33);
-        cout << " FILE KHONG TON TAI!" << endl;
-        Sleep(400);
+        gotoXY(58, 37);
+        cout << " Sorry. The name has not been saved yet !" << endl;
+        Sleep(1000);
         Load();
         int y = 31;
         Textcolor(Red);
-        gotoXY(68, 38);
+        gotoXY(93, 35);
         cout << "BACK";
-        int input = getConsoleInput();
-        do if (input == 6)
+
+        do
         {
-            y++;
-            if (y == 32)
+            int input = getConsoleInput();
+            if (input == 6)
             {
-                clearConsole();
-                menu();
+                y++;
+                if (y == 32)
+                {
+                    clearConsole();
+                    menu();
+                }
                 break;
             }
-        }while (1);
+        } while (1);
         Sleep(1500);
 
     }
@@ -260,18 +275,18 @@ int readMode(char a[30])
 void readNameFile()
 {
     Textcolor(Red);
-    gotoXY(40, 18);
-    cout << "----------------------------- LIST FILE NAME -----------------------------";
-    int i = 20;
+    Draw(7, 10, 3);
+    int i = 15, j = 0;
     ifstream f;
     f.open("Name.txt", ios::in);
     while (!f.eof())
     {
+        j++;
         Textcolor(Black);
         char s[30];
         f >> s;
-        gotoXY(73, i);
-        cout << s;
+        gotoXY(60, i);
+        cout << j << " " << s;
         i++;
     }
     f.close();
@@ -280,49 +295,48 @@ void readNameFile()
 void Load()
 {
     clearConsole();
-    Draw(0, 10, 1);
     readNameFile();
     char data[30];
-    string ask[] = { "BACK", "CONTINUE" };
-    int cur = 50;
+    string ask[] = { "  BACK", "  CONTINUE" };
+    int cur = 60;
     int input = -1;
     while (input != 6) {
         Textcolor(Black);
-        gotoXY(50, 38);  cout << ask[0];
+        gotoXY(60, 38);  cout << ask[0];
 
         Textcolor(Black);
-        gotoXY(80, 38);  cout << ask[1];
+        gotoXY(90, 38);  cout << ask[1];
 
         // Highlight current selection
         Textcolor(Red);
         gotoXY(cur, 38);
-        cout << ask[(cur - 50) / 30];
+        cout << ask[(cur - 60) / 30];
 
         input = getConsoleInput(); // Get keyboard input
 
         // Clear current selection
         Textcolor(Black);
         gotoXY(cur, 38);
-        cout << ask[(cur - 50) / 30];
+        cout << ask[(cur - 60) / 30];
 
         if (input == 3 || input == 4) {
             playSound(1);
             // Move selection left or right
-            if (cur == 50)
-                cur = 80;
+            if (cur == 60)
+                cur = 90;
             else
-                cur = 50;
+                cur = 60;
         }
         else if (input == 6) {
             playSound(2);
             // Call corresponding function for selected menu item
-            if (cur == 50) {
+            if (cur == 60) {
                 clearConsole();
                 menu();
             }
             else {
                 clearConsoleLine(38);
-                gotoXY(58, 32);
+                gotoXY(58, 35);
                 showCur();
                 Textcolor(Red);
                 cout << "ENTER FILE NAME: ";
@@ -330,37 +344,35 @@ void Load()
             }
         }
     }
-
-
-        int chedo = readMode(data);
-        if (chedo == -30 || chedo == -31)
+    int chedo = readMode(data);
+    if (chedo == -30 || chedo == -31)
+    {
+        Diem a;
+        a.score1 = 0;
+        a.score2 = 0;
+        int t = PlayerVsPlayer(a, chedo, data);
+        if (t == 27)
         {
-            Diem a;
-            a.score1 = 0;
-            a.score2 = 0;
-            int t = PlayerVsPlayer(a, chedo, data);
-            if (t == 27)
-            {
-                clearConsole();
-                menu();
-            }
+            clearConsole();
+            menu();
         }
-        if (chedo == -4)
+    }
+    if (chedo == -4)
+    {
+        Diem a;
+        a.score1 = 0;
+        a.score2 = 0;
+        int t = PlayerVsCom(a, -4, data);
+        if (t == 27)
         {
-            Diem a;
-            a.score1 = 0;
-            a.score2 = 0;
-            int t = PlayerVsCom(a, -4, data);
-            if (t == 27)
-            {
-                clearConsole();
-                menu();
-            }
+            clearConsole();
+            menu();
         }
+    }
 }
 void settingPlaySound() {
     int input = getConsoleInput();
-    
+
     if (input == 9) {
         isSoundOn = true;
         playSound(6);
@@ -371,6 +383,7 @@ void settingPlaySound() {
         PlaySound(0, 0, 0);
     }
 }
+
 void menu()
 {
     system("color FA");
@@ -504,3 +517,4 @@ void menu()
 
     }
 }
+
