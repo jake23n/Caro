@@ -45,6 +45,82 @@ void gotoXY(int x, int y)
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
+int inputKey()
+{
+    if (_kbhit())
+    {
+        int key = _getch();
+
+        if (key == 224)	// special key
+        {
+            key = _getch();
+            return key + 1000;
+        }
+
+        return key;
+    }
+    else
+    {
+        return key_none;
+    }
+
+    return key_none;
+}
+
+
+//-------------------------Screen-------------------------
+void clrscr()
+{
+    CONSOLE_SCREEN_BUFFER_INFO	csbiInfo;
+    HANDLE	hConsoleOut;
+    COORD	Home = { 0,0 };
+    DWORD	dummy;
+
+    hConsoleOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    GetConsoleScreenBufferInfo(hConsoleOut, &csbiInfo);
+
+    FillConsoleOutputCharacter(hConsoleOut, ' ', csbiInfo.dwSize.X * csbiInfo.dwSize.Y, Home, &dummy);
+    csbiInfo.dwCursorPosition.X = 0;
+    csbiInfo.dwCursorPosition.Y = 0;
+    SetConsoleCursorPosition(hConsoleOut, csbiInfo.dwCursorPosition);
+}
+
+
+//screen: goto [x,y]
+void gotoXY1(int column, int line)
+{
+    COORD coord;
+    coord.X = column;
+    coord.Y = line;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
+
+//screen: get [x]
+int whereX()
+{
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi))
+        return csbi.dwCursorPosition.X;
+    return -1;
+}
+
+
+//screen: get [y]
+int whereY()
+{
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi))
+        return csbi.dwCursorPosition.Y;
+    return -1;
+}
+
+
+void TextColor(int color)
+{
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
 void playSound(int i) {
     static vector<const wchar_t*> soundFile{ L"beep.wav", L"move.wav",
        L"tick.wav", L"error.wav", L"win.wav", L"draw.wav", L"nhaccho.wav" };
@@ -110,11 +186,12 @@ void clearConsole() {
 void instruction2() {
     Draw(8, 20, 1);
     int y = 31;
-    gotoXY(95, 28); cout << char(17);
-    gotoXY(97, 28); cout << char(16);
+    //gotoXY(95, 28); cout << char(17);
+    //gotoXY(97, 28); cout << char(16);
     Textcolor(Red);
     gotoXY(93, 35);
-    cout << "BACK";
+    
+    cout << char(17) << "   BACK   " << char(16) ;
 
     do
     {
@@ -173,7 +250,7 @@ void instruction1()
     int y = 31;
     Textcolor(Red);
     gotoXY(93, 35);
-    cout << "BACK";
+    cout << "Enter: BACK";
     gotoXY(95, 28); cout << char(17);
     gotoXY(97, 28); cout << char(16);
    
@@ -202,7 +279,7 @@ void About()
     int y = 31;
     Textcolor(Red);
     gotoXY(68, 40);
-    cout << "BACK";
+    cout << "Enter: BACK";
 
     do
     {
@@ -248,7 +325,7 @@ void history() {
     int y = 31;
     Textcolor(Red);
     gotoXY(68, i);
-    cout << "BACK";
+    cout << "Enter: BACK";
 
     do
     {
@@ -280,7 +357,7 @@ int readMode(char a[30])
         int y = 31;
         Textcolor(Red);
         gotoXY(93, 35);
-        cout << "BACK";
+        cout << "Enter: BACK";
 
         do
         {
@@ -409,7 +486,7 @@ void settingPlaySound() {
         isSoundOn = true;
         playSound(6);
     }
-    if (input == 8)
+    if (input == 😎
     {
         isSoundOn = false;
         PlaySound(0, 0, 0);
@@ -429,7 +506,7 @@ void menu()
     for (int i = 0; i < numItems; i++)
     {
         Textcolor(Black);
-        gotoXY(x, y + i);
+        gotoXY(x + ((18 - menuItems[i].size()) / 2), y + i);
         cout << menuItems[i];
     }
     // Additional menu setup
@@ -449,21 +526,48 @@ void menu()
     while (ch != 'x') // Loop until user inputs 'x' to exit
     {
         // Highlight new selection
+        if (y >= 19 && y <= 25) hideCur();
+        // Highlight new selection
         Textcolor(Red);
-        gotoXY(x, y + currentSelection);
+        gotoXY(x + ((18 - menuItems[currentSelection].size()) / 2) - 4, y + currentSelection);
+        cout << "X";
+        Textcolor(Blue);
+        gotoXY(x + ((18 - menuItems[currentSelection].size()) / 2) - 3, y + currentSelection);
+        cout << "O";
+        Textcolor(Blue);
+        gotoXY(x + ((18 - menuItems[currentSelection].size()) / 2) + 2 + menuItems[currentSelection].size(), y + currentSelection);
+        cout << "X";
+        Textcolor(Red);
+        gotoXY(x + ((18 - menuItems[currentSelection].size()) / 2) + 3 + menuItems[currentSelection].size(), y + currentSelection);
+        cout << "O";
+        Textcolor(Red);
+        gotoXY(x + ((18 - menuItems[currentSelection].size()) / 2), y + currentSelection);
         cout << menuItems[currentSelection];
         Textcolor(15);
         int input = 0;
-        input = getConsoleInput(); // Get keyboard input
+        input = getConsoleInput();
+        gotoXY(x + ((18 - menuItems[currentSelection].size()) / 2) - 4, y + currentSelection);
+        TextColor(15);
+        cout << char(219);
+        gotoXY(x + ((18 - menuItems[currentSelection].size()) / 2) - 3, y + currentSelection);
+        TextColor(15);
+        cout << char(219);
+        gotoXY(x + ((18 - menuItems[currentSelection].size()) / 2) + 2 + menuItems[currentSelection].size(), y + currentSelection);
+        TextColor(15);
+        cout << char(219);
+        gotoXY(x + ((18 - menuItems[currentSelection].size()) / 2) + 3 + menuItems[currentSelection].size(), y + currentSelection);
+        TextColor(15);
+        cout << char(219);
+        // Get keyboard input
         // Clear current selection
         Textcolor(Black);
-        gotoXY(x, y + currentSelection);
+        gotoXY(x + ((18 - menuItems[currentSelection].size()) / 2), y + currentSelection);
         cout << menuItems[currentSelection];
         if (input == 9) {
             isSoundOn = true;
             playSound(6);
         }
-        if (input == 8)
+        if (input == 😎
         {
             isSoundOn = false;
             PlaySound(0, 0, 0);
@@ -549,4 +653,3 @@ void menu()
 
     }
 }
-
