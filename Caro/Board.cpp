@@ -1,4 +1,4 @@
-﻿#include "Board.h"
+#include "Board.h"
 void PrintScoreBoard(int k)
 {
     fstream file;
@@ -107,13 +107,33 @@ void PrintScoreBoard(int k)
                 }
                 else if (line[j] == '1')
                 {
-                    Textcolor(0);
+                    Textcolor(FullBlue);
                     cout << char(219);
                 }
                 else if (line[j] == '2')
                 {
-                    Textcolor(FullRed);
+                    Textcolor(0);
                     cout << char(219);
+                }
+                else if (line[j] == '4')
+                {
+                    Textcolor(Black);
+                    cout << char(30);
+                }
+                else if (line[j] == '5')
+                {
+                    Textcolor(Black);
+                    cout << char(17);
+                }
+                else if (line[j] == '6')
+                {
+                    Textcolor(Black);
+                    cout << char(16);
+                }
+                else if (line[j] == '7')
+                {
+                    Textcolor(Black);
+                    cout << char(31);
                 }
                 else
                 {
