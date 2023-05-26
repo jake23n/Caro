@@ -120,12 +120,24 @@ void TextColor(int color)
 {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
-
 void playSound(int i) {
     static vector<const wchar_t*> soundFile{ L"beep.wav", L"move.wav",
        L"tick.wav", L"error.wav", L"win.wav", L"draw.wav", L"nhaccho.wav" };
     if (isSoundOn == true) {
         PlaySound(soundFile[i], NULL, SND_FILENAME | SND_ASYNC);
+    }
+}
+void settingPlaySound() {
+    int input = getConsoleInput();
+
+    if (input == 9) {
+        isSoundOn = true;
+        playSound(6);
+    }
+    if (input == 8)
+    {
+        isSoundOn = false;
+        PlaySound(0, 0, 0);
     }
 }
 int getConsoleInput() {
@@ -299,11 +311,12 @@ void About()
 void history() {
     clearConsole();
     system("color FA");
-    Draw(0, 20, 1);
+    Draw(9, 5 ,1);
+    //Draw(0, 20, 1);
     Textcolor(Green);
     gotoXY(40, 19);
-    cout << "-------------------------- LIST FILE NAME History --------------------------";
-    int i = 22;
+    //cout << "-------------------------- LIST FILE NAME History --------------------------";
+    int i = 15;
     Textcolor(Black);
     fstream f;
     f.open("Lich Su.txt", ios::in);
@@ -324,7 +337,7 @@ void history() {
 
     int y = 31;
     Textcolor(Red);
-    gotoXY(68, i);
+    gotoXY(68, i+1);
     cout << "Enter: BACK";
 
     do
@@ -479,19 +492,7 @@ void Load()
         }
     }
 }
-void settingPlaySound() {
-    int input = getConsoleInput();
 
-    if (input == 9) {
-        isSoundOn = true;
-        playSound(6);
-    }
-    if (input == 8)
-    {
-        isSoundOn = false;
-        PlaySound(0, 0, 0);
-    }
-}
 
 void menu()
 {
@@ -653,3 +654,4 @@ void menu()
 
     }
 }
+
