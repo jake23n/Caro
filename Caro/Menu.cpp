@@ -123,21 +123,23 @@ void TextColor(int color)
 void playSound(int i) {
     static vector<const wchar_t*> soundFile{ L"beep.wav", L"move.wav",
        L"tick.wav", L"error.wav", L"win.wav", L"draw.wav", L"nhaccho.wav" };
-    if (isSoundOn == true) {
+    if (isSoundOn == true && SOUND_ON == 1) {
         PlaySound(soundFile[i], NULL, SND_FILENAME | SND_ASYNC);
     }
 }
-void settingPlaySound() {
-    int input = getConsoleInput();
-
-    if (input == 9) {
-        isSoundOn = true;
-        playSound(6);
+void settingPlaySound(int input) {
+    if (input == 8) {
+        SOUND_ON++;
+        if (SOUND_ON > 1) SOUND_ON = 0;
     }
-    if (input == 8)
+    if (SOUND_ON != 1)
     {
         isSoundOn = false;
         PlaySound(0, 0, 0);
+    }
+    else if (SOUND_ON == 1) {
+        isSoundOn = true;
+        playSound(2);
     }
 }
 int getConsoleInput() {
@@ -321,7 +323,15 @@ void history() {
     fstream f;
     f.open("Lich Su.txt", ios::in);
     string line;
+    int pos = 0;
     while (getline(f, line)) {
+        pos++;
+        if (pos == 10) {
+            // Xóa nội dung trong tệp tin "Lich Su.txt"
+            f.close();
+            f.open("Lich Su.txt", ios::out | ios::trunc);
+            break;
+        }
         string s, s1, buffer;
         size_t pos = line.find(' ');
         s = line.substr(0, pos);
@@ -517,10 +527,8 @@ void menu()
     gotoXY(x - 2, y + numItems + 7);
     cout << "Enter : Select ";
     gotoXY(x, y + numItems + 9);
-    cout << "M: Mute";
-    gotoXY(x, y + numItems + 10);
-    cout << "N: Sound";
-
+    cout << "M: ON/OFF SOUND";
+    int input = 0;
 
     char ch = ' '; // Initialize character input variable
     // Main loop to handle user input and menu selection
@@ -545,7 +553,6 @@ void menu()
         gotoXY(x + ((18 - menuItems[currentSelection].size()) / 2), y + currentSelection);
         cout << menuItems[currentSelection];
         Textcolor(15);
-        int input = 0;
         input = getConsoleInput();
         gotoXY(x + ((18 - menuItems[currentSelection].size()) / 2) - 4, y + currentSelection);
         TextColor(15);
@@ -564,15 +571,7 @@ void menu()
         Textcolor(Black);
         gotoXY(x + ((18 - menuItems[currentSelection].size()) / 2), y + currentSelection);
         cout << menuItems[currentSelection];
-        if (input == 9) {
-            isSoundOn = true;
-            playSound(6);
-        }
-        if (input == 8)
-        {
-            isSoundOn = false;
-            PlaySound(0, 0, 0);
-        }
+        settingPlaySound(input);
         if (input == 5 || ch == 's')
         {
             playSound(1);

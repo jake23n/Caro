@@ -74,6 +74,7 @@ static int currentSelection = 0;
 //Dinh nghia file ve
 static string file_name[] = { "Caro.txt", "p1win.txt", "p2win.txt", "Draw.txt", "About.txt","Loading.txt","howtoplay.txt","listname.txt", "howtoplay2.txt", "HISTORY.txt"};
 extern bool isSoundOn;
+static int SOUND_ON = 1;
 void showCur();
 void hideCur();
 void SetConsole(int width, int height);
@@ -93,4 +94,5 @@ void instruction1(); //Mục hướng dẫn
 void history(); //Mục history#pragma once
 void About();  // thông tin
 
-void settingPlaySound();
+void settingPlaySound(int input);
+
