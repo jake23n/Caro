@@ -86,6 +86,7 @@ void setBoard(int pSize, int pX, int pY)
 
 void loadData(int i, int j, int k)
 {
+
     if (_b->_size == 0)
         return;
     //Gán tọa độ x trong bàn cờ thành giá trị của [i] trong mảng 2 chiều.
@@ -102,6 +103,7 @@ void loadData(int i, int j, int k)
         cout << "X";
         _b->CountX++;
     }
+
     //Nếu trạng thái ô là quân O, ghi quân O ra màn hình, đếm số quân O tăng lên 1.
     if (k == 1)
     {
@@ -1451,54 +1453,68 @@ int PlayerVsPlayer(Diem& a, int load, char data[30])
         
         if (input == 1)
         {
+            int selectedOption = 0;
+
             int pos = 25;
             playSound(2);
-            gotoXY(40, pos); cout << "You should save game before you exit. Would you to exit game?";
+            gotoXY(40, pos);
+            cout << "You should save the game before you exit. Would you like to exit the game?";
+
             string ask[] = { " BACK", "CONTINUE" };
             int cur = 40;
-            int input = -1;
-            while (input != 6) {
-                Textcolor(Black);
-                gotoXY(40, pos + 1);  cout << ask[0];
-
-                Textcolor(Black);
-                gotoXY(80, pos + 1);  cout << ask[1];
-
-                // Highlight current selection
-                Textcolor(Red);
-                gotoXY(cur, pos + 1);
-                cout << ask[(cur - 40) / 40];
-
-                input = getConsoleInput(); // Get keyboard input
-
-                // Clear current selection
-                Textcolor(Black);
-                gotoXY(cur, pos + 1);
-                cout << ask[(cur - 40) / 40];
-
-                if (input == 3 || input == 4) {
-                    playSound(1);
-                    // Move selection left or right
-                    if (cur == 40)
-                        cur = 80;
-                    else if (cur == 80)
-                        cur = 40;
-                }
-                else if (input == 6) {
-                    playSound(2);
-                    // Call corresponding function for selected menu item
-                    if (cur == 40) {
-                        return 27; 
+            hideCur();
+            while (true) {
+                gotoXY(41, pos);
+                // Display options and highlight the selected option
+                for (int idx = 0; idx < 2; idx++) {
+                    if (idx == selectedOption) {
+                        Textcolor(Red);
                     }
                     else {
-                        PlayerVsPlayer(a, load, data);
-                        int x = getXatEnter();
-                        int y = getYatEnter();
-                        gotoXY(x, y);
+                        Textcolor(Black);
+                    }
+                    gotoXY(40 + idx * 40, pos + 1);
+                    cout << ask[idx];
+                }
+
+                int input = getConsoleInput(); // Get keyboard input
+
+                if (input == 3 || input == 4) {
+                    // Move the selection left or right
+                    playSound(1);
+                    selectedOption = (selectedOption + 1) % 2;
+                }
+                else if (input == 6) {
+                    // Perform the action corresponding to the selected option
+                    playSound(2);
+                    if (selectedOption == 0) {
+                        return 27;
+                    }
+                    else if (selectedOption == 1) {
+                        int n = 0;
+                        if (getTurn() == 1)
+                            n = -31;
+                        else
+                            n = -30;
+                        ofstream f1;
+                        f1.open(data, ios::out);
+                        f1 << a.score1 << " " << a.score2 << " " << n << endl;
+                        for (int i = 0; i < _b->_size; i++)
+                        {
+                            for (int j = 0; j < _b->_size; j++)
+                            {
+                                f1 << get_Check(i, j) << " ";
+                            }
+                            f1 << endl;
+                        }
+                        f1.close();
+                        LoadGame(data);
+                        remove(data);
                         break;
                     }
                 }
             }
+
 
         }
     }
@@ -1789,57 +1805,71 @@ int PlayerVsCom(Diem& a, int load, char data[30])
         }
         if (input == 1)
         {
+            int selectedOption = 0;
+
             int pos = 25;
             playSound(2);
-            gotoXY(40, pos); cout << "You should save game before you exit. Would you to exit game?";
+            gotoXY(40, pos);
+            cout << "You should save the game before you exit. Would you like to exit the game?";
+
             string ask[] = { " BACK", "CONTINUE" };
             int cur = 40;
-            int input = -1;
-            while (input != 6) {
-                Textcolor(Black);
-                gotoXY(40, pos + 1);  cout << ask[0];
-
-                Textcolor(Black);
-                gotoXY(80, pos  + 1);  cout << ask[1];
-
-                // Highlight current selection
-                Textcolor(Red);
-                gotoXY(cur, pos + 1);
-                cout << ask[(cur - 40) / 40];
-
-                input = getConsoleInput(); // Get keyboard input
-
-                // Clear current selection
-                Textcolor(Black);
-                gotoXY(cur, pos  +1);
-                cout << ask[(cur - 40) / 40];
-
-                if (input == 3 || input == 4) {
-                    playSound(1);
-                    // Move selection left or right
-                    if (cur == 40)
-                        cur = 80;
-                    else if (cur == 80)
-                        cur = 40;
-                }
-                else if (input == 6) {
-                    playSound(2);
-                    // Call corresponding function for selected menu item
-                    
-                    if (cur == 40) {
-                        return 27;
+            hideCur();
+            while (true) {
+                gotoXY(41, pos);
+                // Display options and highlight the selected option
+                for (int idx = 0; idx < 2; idx++) {
+                    if (idx == selectedOption) {
+                        Textcolor(Red);
                     }
                     else {
-                        PlayerVsCom(a, load, data);
-                        int x = getXatEnter();
-                        int y = getYatEnter();
-                        gotoXY(x, y);
+                        Textcolor(Black);
+                    }
+                    gotoXY(40 + idx * 40, pos + 1);
+                    cout << ask[idx];
+                }
+
+                int input = getConsoleInput(); // Get keyboard input
+
+                if (input == 3 || input == 4) {
+                    // Move the selection left or right
+                    playSound(1);
+                    selectedOption = (selectedOption + 1) % 2;
+                }
+                else if (input == 6) {
+                    // Perform the action corresponding to the selected option
+                    playSound(2);
+                    if (selectedOption == 0) {
+                        return 27;
+                    }
+                    else if (selectedOption == 1) {
+                        int n = 0;
+                        if (getTurn() == 1)
+                            n = -31;
+                        else
+                            n = -30;
+                        ofstream f1;
+                        f1.open(data, ios::out);
+                        f1 << a.score1 << " " << a.score2 << " " << n << endl;
+                        for (int i = 0; i < _b->_size; i++)
+                        {
+                            for (int j = 0; j < _b->_size; j++)
+                            {
+                                f1 << get_Check(i, j) << " ";
+                            }
+                            f1 << endl;
+                        }
+                        f1.close();
+                        LoadGame(data);
+                        remove(data);
                         break;
                     }
                 }
             }
 
+
         }
+
     }
 }
 
@@ -2258,7 +2288,7 @@ void LoadGame(char data[30])
         drawBoard();
         f.close();
     }
-
+    PrintScoreBoard(1);
     Textcolor(Blue);
     gotoXY((SIZE * 4) + 30 + 12, 5);
     cout << _b->CountX;

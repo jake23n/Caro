@@ -24,7 +24,7 @@ void PrintScoreBoard(int k)
                 }
                 else if (line[j] == '2')
                 {
-                    Textcolor(0);
+                    Textcolor(FullRed);
                     cout << char(219);
                 }
                 else if (line[j] == '4')
@@ -112,7 +112,7 @@ void PrintScoreBoard(int k)
                 }
                 else if (line[j] == '2')
                 {
-                    Textcolor(0);
+                    Textcolor(FullRed);
                     cout << char(219);
                 }
                 else if (line[j] == '4')
